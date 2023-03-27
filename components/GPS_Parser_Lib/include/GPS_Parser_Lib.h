@@ -1,5 +1,7 @@
 #ifndef GPS_PARSER_LIB_H
 #define GPS_PARSER_LIB_H
+#define NUM_PARAMS 14
+#define LENGTH_PARAMS 15
 #include<string.h>
 //A struct to store GPS Data
 typedef struct{
@@ -9,5 +11,5 @@ typedef struct{
     float altitude, Geoid_separation, differential_age;
 } GPS_Data;
 //A function which takes String as input and returns the GPS_Data struct 
-GPS_Data parse_packet(char packet[]);
+GPS_Data parse_gps_data(char packet[]);
 #endif
