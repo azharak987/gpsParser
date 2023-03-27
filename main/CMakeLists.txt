@@ -1,2 +1,2 @@
-idf_component_register(SRCS "GPS_Parser.c"
+idf_component_register(SRCS "Unit_Test_GPS_Parser.c"
                     INCLUDE_DIRS ".")
