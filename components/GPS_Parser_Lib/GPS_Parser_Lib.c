@@ -11,6 +11,9 @@ GPS_Data parse_gps_data(char packet[]){
         params[i++] = sliced_string;
         sliced_string = strtok(NULL, ",");
     }
+    if(!strcmp(params[0], "$GPGGA")){
+        printf("Valid Data");
+    }
     for(int i = 0; i<NUM_PARAMS; i++){
         printf("%s \n", params[i]);
     }
