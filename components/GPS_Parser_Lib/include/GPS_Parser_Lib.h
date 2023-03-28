@@ -1,7 +1,6 @@
 #ifndef GPS_PARSER_LIB_H
 #define GPS_PARSER_LIB_H
 #define NUM_PARAMS 14
-#define LENGTH_PARAMS 15
 #include<string.h>
 //A struct to store GPS Data
 typedef struct{
