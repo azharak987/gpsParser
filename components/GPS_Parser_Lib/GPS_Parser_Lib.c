@@ -31,6 +31,13 @@ GPS_Data parse_gps_data(char packet[]){
             int secs = (atof(params[1])-((hours*10000) + (mins*100)));
             //Join Hours, Mins, and Secs into one string.
             sprintf(data.time, "HH:MM:SS = %d:%d:%d\n", hours, mins, secs);
+            //Latitude
+            //Extract Latitude in degrees from the data
+            int degrees = (atof(params[2]))/100;
+            //Converting minutes into degrees
+            float mins_to_degrees = ((atof(params[2]))-degrees*100)/60;
+            //Storing in GPS_Data
+            data.latitude = degrees+mins_to_degrees;
         }
         else{
             return;
