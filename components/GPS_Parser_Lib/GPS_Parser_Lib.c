@@ -53,6 +53,12 @@ GPS_Data parse_gps_data(char packet[]){
             //Longitude Direction
             data.long_direction = *params[5];
             //Tested Longitude
+
+            //GPS Quality Indicator
+            data.GPS_fix_quality = atoi(params[6]);
+            
+            //Number of Satelites used
+            data.no_of_satellites = atoi(params[7]);
         }
         else{
             return;
