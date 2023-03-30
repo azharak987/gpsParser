@@ -22,22 +22,37 @@ GPS_Data parse_gps_data(char packet[]){
         }
         //Comparing the first substring with the packet type to check validity.
         if(!strcmp(params[0], "$GPGGA")){
-            printf("Valid Data");
+           printf("Valid Data. \n");
             //Time
             //Extract time from the data.
-            //atof is used to convert string in to float
             int hours = (atof(params[1]))/10000;
             int mins = (atof(params[1])-(hours*10000))/100;
             int secs = (atof(params[1])-((hours*10000) + (mins*100)));
             //Join Hours, Mins, and Secs into one string.
-            sprintf(data.time, "HH:MM:SS = %d:%d:%d\n", hours, mins, secs);
+            sprintf(data.time, "HH:MM:SS: %d:%d:%d", hours, mins, secs);
+            //Tested Time.
+
             //Latitude
             //Extract Latitude in degrees from the data
             int degrees = (atof(params[2]))/100;
             //Converting minutes into degrees
-            float mins_to_degrees = ((atof(params[2]))-degrees*100)/60;
+            float mins_to_degrees= ((atof(params[2]))-degrees*100)/60;
             //Storing in GPS_Data
             data.latitude = degrees+mins_to_degrees;
+            //Latitude Direction
+            data.lat_direction = *params[3];
+            //Tested Latitude
+            
+            //Longitude 
+            //Extract Longitude in degrees from the data
+            degrees = (atof(params[4]))/100;
+            //Converting minutes into degrees
+            mins_to_degrees= ((atof(params[4]))-degrees*100)/60;
+            //Storing in GPS_Data
+            data.longitude = degrees+mins_to_degrees;
+            //Longitude Direction
+            data.long_direction = *params[5];
+            //Tested Longitude
         }
         else{
             return;
