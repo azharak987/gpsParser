@@ -23,6 +23,14 @@ GPS_Data parse_gps_data(char packet[]){
         //Comparing the first substring with the packet type to check validity.
         if(!strcmp(params[0], "$GPGGA")){
             printf("Valid Data");
+            //Time
+            //Extract time from the data.
+            //atof is used to convert string in to float
+            int hours = (atof(params[1]))/10000;
+            int mins = (atof(params[1])-(hours*10000))/100;
+            int secs = (atof(params[1])-((hours*10000) + (mins*100)));
+            //Join Hours, Mins, and Secs into one string.
+            sprintf(data.time, "HH:MM:SS = %d:%d:%d\n", hours, mins, secs);
         }
         else{
             return;
