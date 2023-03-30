@@ -59,6 +59,14 @@ GPS_Data parse_gps_data(char packet[]){
             
             //Number of Satelites used
             data.no_of_satellites = atoi(params[7]);
+
+            //Horizontal Dilution of Precision
+            data.hdop = atof(params[8]);
+
+            //Geoid Separation
+            data.Geoid_separation = atof(params[11]);
+
+
         }
         else{
             return;
