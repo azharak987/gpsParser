@@ -1,6 +1,9 @@
 #ifndef GPS_PARSER_LIB_H
 #define GPS_PARSER_LIB_H
 #define NUM_PARAMS 14
+#define INT_FLOAT_MISSING_CODE -111
+#define STR_MISSING_CODE "MIS"
+#define CHAR_MISSING_CODE 'M'
 #include<string.h>
 //A struct to store GPS Data
 typedef struct{
