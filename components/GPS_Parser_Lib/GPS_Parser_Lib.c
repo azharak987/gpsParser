@@ -104,18 +104,14 @@ GPS_Data parse_gps_data(char packet[]){
                 if(params[14][0] == '*'){
                     data.checksum = strtol(substring_data[0], NULL, 16);
                     strcpy(data.reference_Station_ID, "MISS");
-                    printf("Check Sum %d\n", data.checksum);
                 }
                 //If the Reference ID is present then saving the data in the variables.
                 else{
                     strcpy(data.reference_Station_ID, substring_data[0]);
-                    printf("Reference Station ID: %s\n", data.reference_Station_ID);
                     data.checksum = strtol(substring_data[1], NULL, 16);
-                    printf("Check Sum Value %d\n", data.checksum);
                 }
             }
             else{
-                printf("Check Sum Missing");
                 strcpy(data.reference_Station_ID, STR_MISSING_CODE);
                 data.checksum = INT_FLOAT_MISSING_CODE;
                 printf(data.reference_Station_ID);
