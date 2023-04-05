@@ -20,6 +20,15 @@ GPS_Data parse_gps_data(char packet[]){
             empty_params++;
         }
     }
+    //Check for any parameters missing at the end of packet
+    if(params_count < 15){
+        params_count++;
+        //Adding the missing parameters positions to missing_params_pos Array
+        for(; params_count<15;params_count++){
+            missing_params_pos[empty_params] = params_count;
+            empty_params++;
+        }
+    }
     if(!strcmp(packet, "") || packet == NULL){
         printf("Empty Packet");
         return;
@@ -37,6 +46,13 @@ GPS_Data parse_gps_data(char packet[]){
             }
             params[i++] = sliced_string;
             sliced_string = strtok(NULL, ",");
+        }
+        //Adding Missing for parameters missed at the end of packet
+        for(;i<15;i++){
+            if(i == missing_params_pos[j]){
+                params[i] = (char*)"Missing";
+                j++;  
+            }
         }
         //Comparing the first substring with the packet type to check validity.
         if(!strcmp(params[0], "$GPGGA")){
