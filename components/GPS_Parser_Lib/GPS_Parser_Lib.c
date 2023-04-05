@@ -83,8 +83,40 @@ GPS_Data parse_gps_data(char packet[]){
 
             //Geoid Separation
             data.Geoid_separation = atof(params[11]);
-
-
+            //Getting Differential Age
+            if(strcmp(params[13], "Missing")){
+                data.differential_age = atoi(params[13]);
+            }
+            //Getting Check sum and Reference Station ID
+            //If the data is present in the packet
+            if(strcmp(params[14], "Missing")){
+                //Splitting by *
+                char *substring = strtok(params[14], "*");
+                char *substring_data[2];
+                i=0;
+                while (substring != NULL && i < 2) {
+                    substring_data[i++] = substring;
+                    substring = strtok(NULL, "*");
+                }
+                //If Reference station ID is missing
+                //That is the first character of the string will be *
+                //Then getting only the checksum
+                if(params[14][0] == '*'){
+                    data.checksum = strtol(substring_data[0], NULL, 16);
+                    strcpy(data.reference_Station_ID, "MISS");
+                    printf("Check Sum %d\n", data.checksum);
+                }
+                //If the Reference ID is present then saving the data in the variables.
+                else{
+                    strcpy(data.reference_Station_ID, substring_data[0]);
+                    printf("Reference Station ID: %s\n", data.reference_Station_ID);
+                    data.checksum = strtol(substring_data[1], NULL, 16);
+                    printf("Check Sum Value %d\n", data.checksum);
+                }
+            }
+            else{
+                strcpy(data.reference_Station_ID, "Missing");
+            }
         }
         else{
             return;
