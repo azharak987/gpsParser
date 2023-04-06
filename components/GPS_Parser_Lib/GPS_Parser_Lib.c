@@ -189,6 +189,17 @@ GPS_Data parse_gps_data(char packet[]){
                     strcpy(data.reference_Station_ID, substring_data[0]);
                     data.checksum = strtol(substring_data[1], NULL, 16);
                 }
+                //Calculating Checksum
+                for(int i = 1; packet[i] != '*' && packet[i] != '\0';i++){
+                    calculated_checksum ^= packet[i];
+                }
+                //Matching Checksum
+                if(data.checksum == calculated_checksum){
+                    data.checksum_integrity = true;
+                }
+                else{
+                    data.checksum_integrity = false;
+                }
             }
             else{
                 strcpy(data.reference_Station_ID, STR_MISSING_CODE);
