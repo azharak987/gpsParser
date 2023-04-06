@@ -209,8 +209,5 @@ GPS_Data parse_gps_data(char packet[]){
             }
         }
     }
-    for(int i = 0; i<NUM_PARAMS; i++){
-        printf("%s \n", params[i]);
-    }
     return data;
 }
