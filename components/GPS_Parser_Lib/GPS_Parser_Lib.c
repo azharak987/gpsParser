@@ -204,7 +204,6 @@ GPS_Data parse_gps_data(char packet[]){
             else{
                 strcpy(data.reference_Station_ID, STR_MISSING_CODE);
                 data.checksum = INT_FLOAT_MISSING_CODE;
-                printf(data.reference_Station_ID);
             }
         }
         else{
