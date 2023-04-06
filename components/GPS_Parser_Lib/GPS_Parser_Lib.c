@@ -4,12 +4,27 @@
 GPS_Data parse_gps_data(char packet[]){
     //Struct GPS_Data to store the data
     GPS_Data data;
-    data.altitude= 0; data.checksum =0; 
+    //Initializing the data with error codes.
+    strcpy(data.time, STR_MISSING_CODE);
+    data.lat_direction = CHAR_MISSING_CODE;
+    data.long_direction = CHAR_MISSING_CODE;
+    strcpy(data.reference_Station_ID, STR_MISSING_CODE);
+    data.GPS_fix_quality = INT_FLOAT_MISSING_CODE;
+    data.no_of_satellites = INT_FLOAT_MISSING_CODE;
+    data.checksum = INT_FLOAT_MISSING_CODE;
+    data.altitude = INT_FLOAT_MISSING_CODE;
+    data.Geoid_separation = INT_FLOAT_MISSING_CODE;
+    data.latitude = INT_FLOAT_MISSING_CODE;
+    data.longitude = INT_FLOAT_MISSING_CODE;
+    data.hdop = INT_FLOAT_MISSING_CODE;
+    data.differential_age = INT_FLOAT_MISSING_CODE;
+    data.checksum_integrity = false;
     //For getting the comma separated strings
     char *params[NUM_PARAMS];
     int params_count = 0, missing_params = 15;   
     int missing_params_pos[15];
     int empty_params = 0;
+    int calculated_checksum = 0; 
     //Identifying empty packets and storing their position in array.
     for (int i = 0; i < strlen(packet); i++) {
         if(packet[i] == ','){
@@ -56,7 +71,7 @@ GPS_Data parse_gps_data(char packet[]){
         }
         //Comparing the first substring with the packet type to check validity.
         if(!strcmp(params[0], "$GPGGA")){
-           printf("Valid Data. \n");
+            printf("Valid Data. \n");
             //Time
             //Extract time from the data.
             int hours = (atof(params[1]))/10000;
