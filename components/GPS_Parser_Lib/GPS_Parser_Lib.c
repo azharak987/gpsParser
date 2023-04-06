@@ -35,6 +35,10 @@ GPS_Data parse_gps_data(char packet[]){
             empty_params++;
         }
     }
+    //Calculating Checksum
+    for(int l = 1; packet[l] != '*';l++){
+        calculated_checksum ^= packet[l];
+    }
     //Check for any parameters missing at the end of packet
     if(params_count < 15){
         params_count++;
@@ -46,7 +50,7 @@ GPS_Data parse_gps_data(char packet[]){
     }
     if(!strcmp(packet, "") || packet == NULL){
         printf("Empty Packet");
-        return;
+        return data;
     }
     else{
         //Sliced string based on Comma
@@ -189,10 +193,6 @@ GPS_Data parse_gps_data(char packet[]){
                     strcpy(data.reference_Station_ID, substring_data[0]);
                     data.checksum = strtol(substring_data[1], NULL, 16);
                 }
-                //Calculating Checksum
-                for(int i = 1; packet[i] != '*' && packet[i] != '\0';i++){
-                    calculated_checksum ^= packet[i];
-                }
                 //Matching Checksum
                 if(data.checksum == calculated_checksum){
                     data.checksum_integrity = true;
@@ -205,9 +205,6 @@ GPS_Data parse_gps_data(char packet[]){
                 strcpy(data.reference_Station_ID, STR_MISSING_CODE);
                 data.checksum = INT_FLOAT_MISSING_CODE;
             }
-        }
-        else{
-            return;
         }
     }
     for(int i = 0; i<NUM_PARAMS; i++){
