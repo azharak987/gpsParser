@@ -48,10 +48,12 @@ GPS_Data parse_gps_data(char packet[]){
             empty_params++;
         }
     }
+    //Checking Empty Packets
     if(!strcmp(packet, "") || packet == NULL){
         printf("Empty Packet");
         return data;
     }
+    //If not empty
     else{
         //Sliced string based on Comma
         char *sliced_string = strtok(packet, ",");
@@ -83,7 +85,7 @@ GPS_Data parse_gps_data(char packet[]){
                 int mins = (atof(params[1])-(hours*10000))/100;
                 int secs = (atof(params[1])-((hours*10000) + (mins*100)));
                 //Join Hours, Mins, and Secs into one string.
-                sprintf(data.time, "HH:MM:SS: %d:%d:%d", hours, mins, secs);
+                sprintf(data.time, "%d:%d:%d", hours, mins, secs);
                 //Tested Time.
             }
             else{
