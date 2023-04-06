@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #include<string.h>
-#define NUM_PARAMS 14
+#define NUM_PARAMS 15
 #define INT_FLOAT_MISSING_CODE -111
 #define STR_MISSING_CODE "MIS"
 #define CHAR_MISSING_CODE 'M'
