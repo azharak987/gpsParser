@@ -13,6 +13,7 @@
 typedef struct {
     char time[9];
     char lat_direction;
+    char packet_type[9];
     char long_direction;
     char reference_Station_ID[4];
     int GPS_fix_quality;
