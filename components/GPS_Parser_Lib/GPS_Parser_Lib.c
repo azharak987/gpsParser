@@ -26,29 +26,7 @@ GPS_Data parse_gps_data(char packet[]){
     int missing_params_pos[15];
     int empty_params = 0;
     int calculated_checksum = 0; 
-    //Identifying empty packets and storing their position in array.
-    for (int i = 0; i < strlen(packet); i++) {
-        if(packet[i] == ','){
-            params_count++;
-        }
-        if (packet[i] == ',' && packet[i+1] == ',') {
-            missing_params_pos[empty_params] = params_count;
-            empty_params++;
-        }
-    }
-    //Calculating Checksum
-    for(int l = 1; packet[l] != '*';l++){
-        calculated_checksum ^= packet[l];
-    }
-    //Check for any parameters missing at the end of packet
-    if(params_count < 15){
-        params_count++;
-        //Adding the missing parameters positions to missing_params_pos Array
-        for(; params_count<15;params_count++){
-            missing_params_pos[empty_params] = params_count;
-            empty_params++;
-        }
-    }
+    
     //Checking Empty Packets
     if(!strcmp(packet, "") || packet == NULL){
         strcpy(data.packet_type, "Empty");
@@ -56,6 +34,29 @@ GPS_Data parse_gps_data(char packet[]){
     }
     //If not empty
     else{
+        //Identifying empty packets and storing their position in array.
+        for (int i = 0; i < strlen(packet); i++) {
+            if(packet[i] == ','){
+                params_count++;
+            }
+            if (packet[i] == ',' && packet[i+1] == ',') {
+                missing_params_pos[empty_params] = params_count;
+                empty_params++;
+            }
+        }
+        //Calculating Checksum
+        for(int l = 1; packet[l] != '*';l++){
+            calculated_checksum ^= packet[l];
+        }
+        //Check for any parameters missing at the end of packet
+        if(params_count < 15){
+            params_count++;
+            //Adding the missing parameters positions to missing_params_pos Array
+            for(; params_count<15;params_count++){
+                missing_params_pos[empty_params] = params_count;
+                empty_params++;
+            }
+        }
         //Sliced string based on Comma
         char *sliced_string = strtok(packet, ",");
         int i = 0, j = 0;
