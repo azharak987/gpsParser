@@ -19,6 +19,7 @@ GPS_Data parse_gps_data(char packet[]){
     data.hdop = INT_FLOAT_MISSING_CODE;
     data.differential_age = INT_FLOAT_MISSING_CODE;
     data.checksum_integrity = false;
+    strcpy(data.packet_type, "    ");
     //For getting the comma separated strings
     char *params[NUM_PARAMS];
     int params_count = 0, missing_params = 15;   
@@ -50,6 +51,7 @@ GPS_Data parse_gps_data(char packet[]){
     }
     //Checking Empty Packets
     if(!strcmp(packet, "") || packet == NULL){
+        strcpy(data.packet_type, "Empty");
         return data;
     }
     //If not empty
@@ -79,6 +81,7 @@ GPS_Data parse_gps_data(char packet[]){
         }
         //Comparing the first substring with the packet type to check validity.
         if(!strcmp(params[0], "$GPGGA")){
+            strcpy(data.packet_type, "Valid");
             //Time
             if(strcmp(params[1], "Missing")){
                 //Extract time from the data.
@@ -208,6 +211,9 @@ GPS_Data parse_gps_data(char packet[]){
                 strcpy(data.reference_Station_ID, STR_MISSING_CODE);
                 data.checksum = INT_FLOAT_MISSING_CODE;
             }
+        }
+        else{
+            strcpy(data.packet_type,"Invalid");
         }
     }
     return data;
