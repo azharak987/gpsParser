@@ -65,9 +65,12 @@ GPS_Data parse_gps_data(char packet[]){
                 params[i] = (char*)"Missing";
                 i++;j++;
             }
-            params[i++] = sliced_string;
-            sliced_string = strtok(NULL, ",");
+            else{
+                params[i++] = sliced_string;
+                sliced_string = strtok(NULL, ",");
+            }
         }
+
         //Adding Missing for parameters missed at the end of packet
         for(;i<15;i++){
             if(i == missing_params_pos[j]){
