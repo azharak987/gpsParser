@@ -117,9 +117,35 @@ void app_main(void)
         uart_set_pin(UART_NUM_0, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
         uart_driver_install(UART_NUM_0, 1024, 0, 0, NULL, 0);
     while(1){
+        char msg[] = "Missing, Miss, M, -111, -111.00 represents Missing Parameters\n";
+        uart_write_bytes(UART_NUM_0, msg, strlen(msg));
+        uart_write_bytes(UART_NUM_0, "..\n", 3);
+        uart_write_bytes(UART_NUM_0, "..\n", 3);
         char packet[] = "$GPGGA,002153.000,3342.6618,N,11751.3858,W,1,10,1.2,27.0,M,-34.2,M,,0000*5E";
         GPS_Data received_data = parse_gps_data(packet);
         print_parsed_data(received_data);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        GPS_Data expected_data;
+        strcpy(expected_data.time, "0:21:53");
+        expected_data.latitude = 33.711029;
+        expected_data.lat_direction = 'N';
+        expected_data.longitude = 117.856430;
+        expected_data.long_direction = 'W';
+        expected_data.GPS_fix_quality = 1;
+        expected_data.no_of_satellites = 10;
+        expected_data.hdop = 1.20;
+        expected_data.Geoid_separation = -34.20;
+        expected_data.altitude = 27.00;
+        expected_data.differential_age = -111.00;
+        strcpy(expected_data.reference_Station_ID, "0000");
+        expected_data.checksum = 94;
+        expected_data.checksum_integrity = 1;
+        
+        if(gps_parser_tester(received_data, expected_data)){
+            uart_write_bytes(UART_NUM_0, "Test Passed", 12);
+        }
+        else{
+            uart_write_bytes(UART_NUM_0, "Test Failed", 12);
+        }
+        break;
     }
 }
