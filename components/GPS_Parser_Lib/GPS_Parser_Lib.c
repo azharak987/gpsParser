@@ -50,7 +50,6 @@ GPS_Data parse_gps_data(char packet[]){
     }
     //Checking Empty Packets
     if(!strcmp(packet, "") || packet == NULL){
-        printf("Empty Packet");
         return data;
     }
     //If not empty
@@ -80,7 +79,6 @@ GPS_Data parse_gps_data(char packet[]){
         }
         //Comparing the first substring with the packet type to check validity.
         if(!strcmp(params[0], "$GPGGA")){
-            //Printf Statement
             //Time
             if(strcmp(params[1], "Missing")){
                 //Extract time from the data.
